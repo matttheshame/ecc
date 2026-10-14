@@ -9,6 +9,8 @@ struct BackendTests {
     func errorMapping() {
         #expect(BackendError.fromServerMessage("BRUSK_RATE_LIMIT: 10 reports per day") == .rateLimited)
         #expect(BackendError.fromServerMessage("BRUSK_TEXT_POLICY") == .textRejected)
+        #expect(BackendError.fromServerMessage("BRUSK_INVALID_TIME") == .invalidTime)
+        #expect(BackendError.fromServerMessage("BRUSK_NOT_FOUND") == .notFound)
         #expect(BackendError.fromServerMessage("boom") == .server("boom"))
     }
 
@@ -62,6 +64,15 @@ struct BackendTests {
         #expect(week.count < all.count)
         #expect(ixelles.allSatisfy { $0.communeCode == "21009" } && !ixelles.isEmpty)
         #expect(all.allSatisfy { Brussels.contains($0.center) })
+    }
+
+    @Test("Photo paths match the storage policy and submit_report pattern")
+    func photoPath() {
+        let user = UUID(uuidString: "6F9619FF-8B86-D011-B42D-00C04FC964FF")!
+        let report = UUID(uuidString: "00000000-0000-4000-8000-000000000001")!
+        let path = SupabaseBackend.photoPath(user: user, report: report)
+        #expect(path == "6f9619ff-8b86-d011-b42d-00c04fc964ff/00000000-0000-4000-8000-000000000001.jpg")
+        #expect(path.range(of: #"^[0-9a-f-]{36}/[0-9a-f-]{36}\.jpg$"#, options: .regularExpression) != nil)
     }
 
     @Test("Walk view URL points at the edge function")

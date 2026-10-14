@@ -124,7 +124,7 @@ public final class SupabaseBackend: Backend {
             var photoPath: String?
             if let jpeg = report.anonymisedPhotoJPEG {
                 // Storage policy: users may only write under their own folder.
-                let path = "\(session.userID.uuidString.lowercased())/\(report.id.uuidString.lowercased()).jpg"
+                let path = Self.photoPath(user: session.userID, report: report.id)
                 try await client.storage.from(Self.photoBucket).upload(
                     path, data: jpeg, options: FileOptions(contentType: "image/jpeg", upsert: false)
                 )
@@ -148,6 +148,10 @@ public final class SupabaseBackend: Backend {
     }
 
     public func deleteReport(_ id: UUID) async throws {
+        // The photo first (storage rows cannot be deleted from SQL), then the row.
+        if let session = await currentSession() {
+            _ = try? await client.storage.from(Self.photoBucket).remove(paths: [Self.photoPath(user: session.userID, report: id)])
+        }
         try await map { try await client.rpc("delete_my_report", params: IDParams(id: id)).execute() }
     }
 
@@ -202,6 +206,11 @@ public final class SupabaseBackend: Backend {
     }
 
     // MARK: Helpers
+
+    /// `<user id>/<report id>.jpg`, the layout the storage policies and submit_report check.
+    static func photoPath(user: UUID, report: UUID) -> String {
+        "\(user.uuidString.lowercased())/\(report.uuidString.lowercased()).jpg"
+    }
 
     /// Public page the contact opens. Served by the `walk-view` edge function.
     func walkViewURL(token: String) -> URL {

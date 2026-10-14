@@ -1993,6 +1993,30 @@
         }
       }
     },
+    "error.notFound" : {
+      "comment" : "",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This is no longer available."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cet élément n'est plus disponible."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dit is niet meer beschikbaar."
+          }
+        }
+      }
+    },
     "error.notSignedIn" : {
       "comment" : "",
       "extractionState" : "manual",

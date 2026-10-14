@@ -1,0 +1,55 @@
+# Supabase CLI configuration for local development (`supabase start`) and the
+# settings to mirror in the hosted project (EU region: spec §8, "hébergement UE").
+
+project_id = "brusk"
+
+[api]
+schemas = ["public"]
+max_rows = 1000
+
+[auth]
+site_url = "https://brusk.app"
+enable_signup = true
+# Sessions: short access tokens, rotating refresh tokens (supabase-swift refreshes them).
+jwt_expiry = 3600
+enable_refresh_token_rotation = true
+
+[auth.email]
+# Spec §4.1: sign-in by e-mailed code only. No passwords are ever set.
+enable_signup = true
+enable_confirmations = false
+double_confirm_changes = true
+otp_length = 6
+otp_expiry = 600
+max_frequency = "30s"
+
+[auth.email.template.magic_link]
+subject = "Brusk · Votre code · Je code · Your code"
+content_path = "./supabase/templates/otp.html"
+
+[auth.email.template.confirmation]
+subject = "Brusk · Votre code · Je code · Your code"
+content_path = "./supabase/templates/otp.html"
+
+[auth.sms]
+enable_signup = false
+
+[auth.external.apple]
+enabled = false
+
+# The walk page is opened by the contact without an account: the 48-hex-character
+# token in the link is the access control.
+[functions.walk-view]
+verify_jwt = false
+
+[functions.walk-watchdog]
+verify_jwt = true
+
+[functions.dispatch-outbox]
+verify_jwt = true
+
+[functions.maintenance]
+verify_jwt = true
+
+[functions.delete-account]
+verify_jwt = true

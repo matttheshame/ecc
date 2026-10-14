@@ -155,3 +155,8 @@ STRINGS = [
     dict(key="state.offline.message", en="Showing the last saved version.", fr="Affichage de la dernière version enregistrée.",
          nl="De laatst bewaarde versie wordt getoond."),
 ]
+
+STRINGS += [
+    dict(key="error.notFound", en="This is no longer available.", fr="Cet élément n'est plus disponible.",
+         nl="Dit is niet meer beschikbaar."),
+]

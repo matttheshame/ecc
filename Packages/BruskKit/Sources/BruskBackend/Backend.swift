@@ -22,6 +22,8 @@ public enum BackendError: Error, Hashable, Sendable {
     case textRejected
     case tooFarToConfirm
     case alreadyConfirmed
+    case invalidTime
+    case notFound
     case network
     case notConfigured
     case server(String)
@@ -35,6 +37,8 @@ public enum BackendError: Error, Hashable, Sendable {
         case .textRejected: "error.textRejected"
         case .tooFarToConfirm: "error.tooFarToConfirm"
         case .alreadyConfirmed: "error.alreadyConfirmed"
+        case .invalidTime: "report.validation.tooOld"
+        case .notFound: "error.notFound"
         case .network: "error.network"
         case .notConfigured: "error.notConfigured"
         case .server: "error.generic"
@@ -50,6 +54,9 @@ public enum BackendError: Error, Hashable, Sendable {
             ("BRUSK_TOO_FAR", .tooFarToConfirm),
             ("BRUSK_ALREADY_CONFIRMED", .alreadyConfirmed),
             ("BRUSK_NOT_AUTHENTICATED", .notSignedIn),
+            ("BRUSK_INVALID_TIME", .invalidTime),
+            ("BRUSK_NOT_FOUND", .notFound),
+            ("BRUSK_INVALID_PHOTO", .server("BRUSK_INVALID_PHOTO")),
         ]
         return table.first { message.contains($0.0) }?.1 ?? .server(message)
     }
