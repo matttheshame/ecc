@@ -1,0 +1,17 @@
+# Xcode
+xcuserdata/
+*.xcuserstate
+DerivedData/
+build/
+# SwiftPM
+.build/
+.swiftpm/
+Packages/BruskKit/.build/
+# Secrets (anon key + URL). Copy Config/Secrets.example.xcconfig
+Config/Secrets.xcconfig
+# Supabase local
+supabase/.branches/
+supabase/.temp/
+.env
+.DS_Store
+__pycache__/
