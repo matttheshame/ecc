@@ -82,11 +82,20 @@ public enum PaletteToken: String, CaseIterable, Sendable {
     case accent
     case onAccent
 
-    // Categories — muted, earthy, never neon.
+    // Categories as TEXT and icons — muted, earthy, never neon. Tuned for 4.5:1.
     case categoryRoad
     case categoryCleanliness
     case categoryInsecurity
     case categoryHarassment
+
+    // Categories as MARKS (map zones, chart bars). A separate role because text
+    // tuning made two hues too close for identity: these were searched in OKLCH and
+    // validated with the dataviz palette validator, all pairs (any two zones can
+    // touch on a map): CVD ΔE ≥ 10, normal-vision ΔE ≥ 18, ≥ 3:1 on every surface.
+    case markRoad
+    case markCleanliness
+    case markInsecurity
+    case markHarassment
 
     // Status
     case statusPending
@@ -115,6 +124,11 @@ public enum PaletteToken: String, CaseIterable, Sendable {
         case .categoryCleanliness: AdaptiveRGB(light: 0x396445, dark: 0x8FC29D)
         case .categoryInsecurity:  AdaptiveRGB(light: 0x993C2A, dark: 0xEE9481)
         case .categoryHarassment:  AdaptiveRGB(light: 0x7D3E71, dark: 0xD79BCB)
+
+        case .markRoad:            AdaptiveRGB(light: 0xA38020, dark: 0xAC9016)
+        case .markCleanliness:     AdaptiveRGB(light: 0x0D9296, dark: 0x11A6AA)
+        case .markInsecurity:      AdaptiveRGB(light: 0xAB4046, dark: 0xC34E54)
+        case .markHarassment:      AdaptiveRGB(light: 0x7652AC, dark: 0x8962C5)
 
         case .statusPending:       AdaptiveRGB(light: 0x55525F, dark: 0xB6B3BE)
         case .statusConfirmed:     AdaptiveRGB(light: 0x4A3F9E, dark: 0xAFA4F0)

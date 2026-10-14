@@ -9,20 +9,38 @@ import Observation
 final class AppEnvironment {
     let backend: any Backend
     let language: LanguageStore
+    let session: SessionStore
+    let router: AppRouter
+    let location: LocationService
+    let store: LocalStore
+    let walk: WalkHomeService
 
-    init(backend: any Backend, language: LanguageStore) {
+    init(backend: any Backend, language: LanguageStore, store: LocalStore) {
         self.backend = backend
         self.language = language
+        self.store = store
+        session = SessionStore(backend: backend)
+        router = AppRouter()
+        location = LocationService()
+        walk = WalkHomeService(backend: backend)
     }
 
     /// Supabase when `SUPABASE_HOST` / `SUPABASE_ANON_KEY` are set (Config/Secrets.xcconfig),
     /// otherwise the labelled demo backend so the app is fully explorable without a server.
     static func live() -> AppEnvironment {
-        AppEnvironment(backend: makeBackend(), language: LanguageStore())
+        AppEnvironment(backend: makeBackend(), language: LanguageStore(), store: LocalStore())
     }
 
     static func preview(signedIn: Bool = true) -> AppEnvironment {
-        AppEnvironment(backend: DemoBackend(signedIn: signedIn, latency: .zero), language: LanguageStore(defaults: UserDefaults(suiteName: "preview") ?? .standard))
+        let environment = AppEnvironment(
+            backend: DemoBackend(signedIn: signedIn, latency: .zero),
+            language: LanguageStore(defaults: UserDefaults(suiteName: "preview") ?? .standard),
+            store: LocalStore(inMemory: true)
+        )
+        if signedIn {
+            environment.session.didSignIn(AuthSession(userID: UUID(), email: "demo@example.org"))
+        }
+        return environment
     }
 
     private static func makeBackend() -> any Backend {

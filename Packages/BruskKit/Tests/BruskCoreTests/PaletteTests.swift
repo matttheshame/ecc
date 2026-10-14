@@ -54,6 +54,16 @@ struct PaletteTests {
         #expect(dark > 1.2 && dark < WCAG.nonTextMinimum)
     }
 
+    @Test("Zone/chart marks reach 3:1 (non-text) on every surface")
+    func marks() {
+        for token in ReportCategory.allCases.map(\.markToken) {
+            for surface in Self.surfaces {
+                #expect(WCAG.contrast(token.value.light, surface.value.light) >= WCAG.nonTextMinimum, "\(token) light on \(surface)")
+                #expect(WCAG.contrast(token.value.dark, surface.value.dark) >= WCAG.nonTextMinimum, "\(token) dark on \(surface)")
+            }
+        }
+    }
+
     @Test("Category colours are distinguishable from each other")
     func categoriesDistinct() {
         let cats = ReportCategory.allCases.map(\.paletteToken.value.light)

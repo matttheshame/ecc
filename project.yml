@@ -44,6 +44,11 @@ targets:
         product: BruskBackend
     entitlements:
       path: App/Brusk.entitlements
+      properties:
+        # Universal links for shared zone cards (placeholder domain, see HUMAN-WORK.md).
+        com.apple.developer.associated-domains: ["applinks:brusk.app"]
+        # "Are you home?" reminders must break through Focus modes.
+        com.apple.developer.usernotifications.time-sensitive: true
     info:
       path: App/Info.plist
       properties:

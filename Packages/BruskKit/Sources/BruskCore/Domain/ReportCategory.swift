@@ -38,6 +38,16 @@ public enum ReportCategory: String, CaseIterable, Codable, Sendable, Identifiabl
         }
     }
 
+    /// Fill/stroke colour for zones and charts (identity, validated for colour blindness).
+    public var markToken: PaletteToken {
+        switch self {
+        case .road: .markRoad
+        case .cleanliness: .markCleanliness
+        case .insecurity: .markInsecurity
+        case .harassment: .markHarassment
+        }
+    }
+
     /// Full name, used in titles and VoiceOver.
     public var titleKey: String {
         switch self {

@@ -39,7 +39,10 @@ extension UIColor {
 }
 
 extension ReportCategory {
+    /// For text and icons (AA 4.5:1).
     var color: Color { .ds(paletteToken) }
+    /// For map zones and chart marks (validated for colour-blind separation, 3:1).
+    var markColor: Color { .ds(markToken) }
 }
 
 extension ReportStatus {

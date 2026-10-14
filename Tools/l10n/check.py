@@ -25,7 +25,7 @@ LANGUAGES = ("en", "fr", "nl")
 # First segment of every catalog key.
 NAMESPACES = {
     "a11y", "app", "auth", "category", "common", "complaint", "error", "flag", "followup",
-    "help", "map", "notification", "onboarding", "period", "report", "routing", "settings",
+    "help", "map", "notification", "onboarding", "period", "privacy", "report", "routing", "settings",
     "share", "state", "status", "textguard", "trend", "trust", "walk", "zone",
 }
 KEY_RE = re.compile(r"^(%s)\.[A-Za-z0-9_.]+( .*)?$" % "|".join(sorted(NAMESPACES)))
