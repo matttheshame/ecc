@@ -359,6 +359,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6968E94AB63981830D055FC7 /* Build configuration list for PBXNativeTarget "Brusk" */;
 			buildPhases = (
+				BC6A12B0940BF7F7100CB7D8 /* Require Supabase keys in Release */,
 				1A27F825736EE13DA69C3522 /* Sources */,
 				81761AA7BA21EEF6D95E5E19 /* Resources */,
 				6D4943F1AB80757A1A8019CD /* Frameworks */,
@@ -427,6 +428,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		BC6A12B0940BF7F7100CB7D8 /* Require Supabase keys in Release */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Require Supabase keys in Release";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Without keys the app falls back to labelled demo data. Never ship that.\nif [ \"${CONFIGURATION}\" = \"Release\" ] && { [ -z \"${SUPABASE_HOST}\" ] || [ -z \"${SUPABASE_ANON_KEY}\" ]; }; then\n  echo \"error: SUPABASE_HOST / SUPABASE_ANON_KEY missing. Copy Config/Secrets.example.xcconfig to Config/Secrets.xcconfig.\"\n  exit 1\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1A27F825736EE13DA69C3522 /* Sources */ = {

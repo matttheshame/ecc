@@ -937,54 +937,6 @@
         }
       }
     },
-    "common.next" : {
-      "comment" : "",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Next"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Suivant"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Volgende"
-          }
-        }
-      }
-    },
-    "common.ok" : {
-      "comment" : "",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OK"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OK"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OK"
-          }
-        }
-      }
-    },
     "common.optional" : {
       "comment" : "",
       "extractionState" : "manual",
@@ -1077,30 +1029,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Versturen"
-          }
-        }
-      }
-    },
-    "common.share" : {
-      "comment" : "",
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Share"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Partager"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delen"
           }
         }
       }
@@ -3489,6 +3417,30 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Filters voor periode en gemeente"
+          }
+        }
+      }
+    },
+    "map.filter.a11y.value %@ %@" : {
+      "comment" : "VoiceOver value of the filter button. 1: period, 2: commune.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@, %2$@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@, %2$@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@, %2$@"
           }
         }
       }

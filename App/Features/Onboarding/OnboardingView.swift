@@ -5,6 +5,8 @@ struct OnboardingView: View {
     let onFinish: () -> Void
     @State private var page = 0
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @ScaledMetric(relativeTo: .title) private var symbolSize: CGFloat = 30
 
     private struct Page: Identifiable {
         let id: Int
@@ -39,9 +41,10 @@ struct OnboardingView: View {
                     ScrollView {
                         VStack(alignment: .leading, spacing: Space.l) {
                             ZStack {
-                                HexCluster(size: 200, highlight: .ds(.accent))
+                                // Smaller illustration at accessibility sizes leaves room for the text.
+                                HexCluster(size: dynamicTypeSize.isAccessibilitySize ? 136 : 200, highlight: .ds(.accent))
                                 Image(systemName: item.symbol)
-                                    .font(.system(size: 30, weight: .semibold))
+                                    .font(.system(size: min(symbolSize, 48), weight: .semibold))
                                     .foregroundStyle(Color.ds(.onAccent))
                                     .accessibilityHidden(true)
                             }

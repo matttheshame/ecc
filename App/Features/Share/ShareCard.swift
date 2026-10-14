@@ -37,7 +37,8 @@ struct ShareCardContent: Sendable {
 }
 
 /// A map snapshot with the area's outline already projected into image coordinates.
-struct CardMap: Sendable {
+/// `@unchecked`: immutable after creation; crosses from the snapshot callback once.
+struct CardMap: @unchecked Sendable {
     let image: UIImage
     let outline: [CGPoint]
 }

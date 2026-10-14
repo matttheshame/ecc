@@ -14,6 +14,7 @@ struct EmergencyCallButton: View {
     let contact: EmergencyContact
     var prominence: Prominence = .primary
     @Environment(\.openURL) private var openURL
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @State private var taps = 0
     /// The big numeral follows Dynamic Type like the rest of the scale.
     @ScaledMetric(relativeTo: .largeTitle) private var numeralSize: CGFloat = 44
@@ -23,12 +24,16 @@ struct EmergencyCallButton: View {
             taps += 1
             if let url = contact.telURL { openURL(url) }
         } label: {
-            HStack(spacing: Space.m) {
+            // At accessibility sizes the numeral and the text stack vertically instead of squeezing.
+            let layout = dynamicTypeSize.isAccessibilitySize
+                ? AnyLayout(VStackLayout(alignment: .leading, spacing: Space.s))
+                : AnyLayout(HStackLayout(spacing: Space.m))
+            layout {
                 if let phone = contact.displayPhone, prominence == .primary {
                     Text(verbatim: phone)
                         .font(.system(size: numeralSize, weight: .bold, design: .rounded))
                         .monospacedDigit()
-                        .minimumScaleFactor(0.8)
+
                 }
                 VStack(alignment: .leading, spacing: Space.xs) {
                     Text(LocalizedStringKey(contact.titleKey))
@@ -46,12 +51,14 @@ struct EmergencyCallButton: View {
                 }
                 .multilineTextAlignment(.leading)
                 .fixedSize(horizontal: false, vertical: true)
-                Spacer(minLength: Space.s)
+                if !dynamicTypeSize.isAccessibilitySize {
+                    Spacer(minLength: Space.s)
+                }
                 Image(systemName: "phone.fill")
                     .font(.title3)
                     .accessibilityHidden(true)
             }
-            .foregroundStyle(prominence == .primary ? Color.ds(.onDanger) : Color.ds(.danger))
+            .foregroundStyle(prominence == .primary ? Color.ds(.onDanger) : Color.ds(.categoryInsecurity))
             .padding(prominence == .primary ? Space.l : Space.m)
             .frame(maxWidth: .infinity, minHeight: prominence == .primary ? 104 : ControlSize.row, alignment: .leading)
             .background(prominence == .primary ? Color.ds(.danger) : Color.ds(.surface), in: Radius.shape(Radius.large))

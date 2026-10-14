@@ -55,7 +55,7 @@ struct ListRow<Trailing: View>: View {
             if let systemImage {
                 IconBadge(systemName: systemImage, color: tint, size: .regular)
             }
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: Space.xs) {
                 title
                     .textStyle(.headline)
                     .foregroundStyle(Color.ds(.textPrimary))

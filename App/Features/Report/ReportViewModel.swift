@@ -129,10 +129,13 @@ final class ReportViewModel {
         isProcessingPhoto = true
         photoFailed = false
         defer { isProcessingPhoto = false }
+        guard let original = image.jpegData(compressionQuality: 0.9) else {
+            photoFailed = true
+            return
+        }
         do {
-            let anonymised = try await PhotoAnonymizer.anonymise(image)
-            photo = anonymised
-            originalJPEG = image.jpegData(compressionQuality: 0.9)
+            photo = try await PhotoAnonymizer.anonymise(jpeg: original)
+            originalJPEG = original
         } catch {
             photo = nil
             originalJPEG = nil

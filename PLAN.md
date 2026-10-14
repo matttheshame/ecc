@@ -286,6 +286,13 @@ Calm, civic, trustworthy. The map is the hero and the UI is quiet glass around i
 * Category colours are muted and earthy: ochre (road), sage (cleanliness), brick
   (theft/aggression), plum (harassment). Each has light and dark values verified
   ≥ 4.5:1 for text and ≥ 3:1 for non-text, checked by unit tests in `BruskCore`.
+* *Decision made during the build:* text-grade category colours were too close to one
+  another to identify map zones (colour-blind check failed). Zones and charts use a
+  separate `mark*` palette, searched in OKLCH and validated for all pairs (CVD ΔE ≥ 10,
+  normal-vision ΔE ≥ 17), plus a category glyph on each zone when zoomed in.
+* *Decision made during the build:* share cards exist for road and cleanliness only.
+  Public pressure targets a service; sharing "harassment, rue X" would stigmatise a
+  street (spec §8).
 * Warm paper neutrals in light mode, soft charcoal (not pure black) in dark mode.
 * SF Pro, Dynamic Type everywhere, an 8 pt grid, continuous corners, springs
   ≤ 300 ms, haptics on commit actions only.

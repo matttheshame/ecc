@@ -5,7 +5,8 @@ import Vision
 
 /// The photo that may leave the device: faces and licence plates destroyed, metadata
 /// (EXIF, GPS) stripped by re-encoding, long side ≤ 2048 px.
-struct AnonymisedPhoto: Sendable {
+/// `@unchecked`: every member is immutable; UIImage is thread-safe once created.
+struct AnonymisedPhoto: @unchecked Sendable {
     let jpeg: Data
     let preview: UIImage
     let facesBlurred: Int
@@ -26,9 +27,12 @@ enum PhotoAnonymizerError: Error {
 /// that looks like a plate, and plate-shaped rectangles that contain text.
 /// Regions are pixellated *and* blurred so they cannot be reconstructed.
 enum PhotoAnonymizer {
-    static func anonymise(_ image: UIImage) async throws -> AnonymisedPhoto {
+    /// Takes the original as JPEG data so only immutable bytes cross into the
+    /// background task (JPEG keeps the orientation; `normalise` redraws upright).
+    static func anonymise(jpeg: Data) async throws -> AnonymisedPhoto {
         try await Task.detached(priority: .userInitiated) {
-            try process(image)
+            guard let image = UIImage(data: jpeg) else { throw PhotoAnonymizerError.unreadableImage }
+            return try process(image)
         }.value
     }
 

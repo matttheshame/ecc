@@ -198,7 +198,7 @@ struct NearbyRow: View {
     var body: some View {
         HStack(spacing: Space.s + Space.xs) {
             IconBadge(category: report.category)
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: Space.xs) {
                 Text(LocalizedStringKey(report.category.titleKey))
                     .textStyle(.headline)
                     .foregroundStyle(Color.ds(.textPrimary))

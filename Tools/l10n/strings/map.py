@@ -98,3 +98,8 @@ STRINGS = [
     dict(key="share.message.score %lld %@", en="Our neighbourhood scores %1$lld/100 this month. %2$@",
          fr="Notre quartier obtient %1$lld/100 ce mois-ci. %2$@", nl="Onze buurt scoort deze maand %1$lld/100. %2$@"),
 ]
+
+STRINGS += [
+    dict(key="map.filter.a11y.value %@ %@", en="%1$@, %2$@", fr="%1$@, %2$@", nl="%1$@, %2$@",
+         comment="VoiceOver value of the filter button. 1: period, 2: commune."),
+]

@@ -120,6 +120,7 @@ private struct WhatStep: View {
     let model: ReportViewModel
     let onHelp: () -> Void
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @Environment(\.accessibilityVoiceOverEnabled) private var voiceOverEnabled
     @State private var selectionTick = 0
 
     var body: some View {
@@ -134,7 +135,8 @@ private struct WhatStep: View {
                     ForEach(ReportCategory.allCases) { category in
                         CategoryTile(category: category, isSelected: model.category == category) {
                             selectionTick += 1
-                            if model.choose(category) {
+                            // Auto-advance would move VoiceOver focus unexpectedly: users advance with Continue.
+                            if model.choose(category), !voiceOverEnabled {
                                 Task {
                                     try? await Task.sleep(for: .milliseconds(280))
                                     model.advance()
@@ -195,6 +197,7 @@ private struct WhereWhenStep: View {
     @Environment(AppEnvironment.self) private var environment
     @Environment(LanguageStore.self) private var language
     @ScaledMetric(relativeTo: .body) private var mapHeight: CGFloat = 320
+    @ScaledMetric(relativeTo: .title) private var pinSize: CGFloat = 36
 
     var body: some View {
         ScrollView {
@@ -215,10 +218,10 @@ private struct WhereWhenStep: View {
 
                     // Fixed centre pin: the map moves underneath it.
                     Image(systemName: "mappin")
-                        .font(.system(size: 36, weight: .semibold))
+                        .font(.system(size: pinSize, weight: .semibold))
                         .foregroundStyle(model.category?.color ?? Color.ds(.accent))
                         .shadow(color: .black.opacity(0.25), radius: 3, y: 2)
-                        .offset(y: -18)
+                        .offset(y: -pinSize / 2) // the pin's tip marks the map centre
                         .allowsHitTesting(false)
                         .accessibilityHidden(true)
 
@@ -430,12 +433,13 @@ struct ReportDoneView: View {
     let onHelp: () -> Void
     let onDone: () -> Void
     @State private var appeared = false
+    @ScaledMetric(relativeTo: .largeTitle) private var heroSize: CGFloat = 64
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: Space.l) {
                 Image(systemName: "checkmark.circle.fill")
-                    .font(.system(size: 64, weight: .semibold))
+                    .font(.system(size: heroSize, weight: .semibold))
                     .foregroundStyle(Color.ds(.statusResolved))
                     .symbolEffect(.bounce, value: appeared)
                     .accessibilityHidden(true)

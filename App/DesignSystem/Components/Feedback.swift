@@ -14,7 +14,8 @@ struct Banner<Actions: View>: View {
             switch self {
             case .info: .ds(.accent)
             case .warning: .ds(.categoryRoad)
-            case .serious: .ds(.danger)
+            // Text-grade red: the fill red is only 3.0:1 on its tint in dark mode.
+            case .serious: .ds(.categoryInsecurity)
             }
         }
 

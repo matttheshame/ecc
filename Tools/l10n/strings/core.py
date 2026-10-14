@@ -127,17 +127,14 @@ STRINGS = [
     dict(key="flag.reason.wrongPlace", en="Wrong place", fr="Mauvais endroit", nl="Verkeerde plek"),
     dict(key="flag.reason.other", en="Something else", fr="Autre chose", nl="Iets anders"),
 
-    # Common -------------------------------------------------------------------------------------
-    dict(key="common.ok", en="OK", fr="OK", nl="OK"),
+    # Common -------------------------------------------------------------------------------------,
     dict(key="common.cancel", en="Cancel", fr="Annuler", nl="Annuleren"),
     dict(key="common.close", en="Close", fr="Fermer", nl="Sluiten"),
     dict(key="common.done", en="Done", fr="Terminé", nl="Klaar"),
     dict(key="common.continue", en="Continue", fr="Continuer", nl="Doorgaan"),
     dict(key="common.back", en="Back", fr="Retour", nl="Terug"),
-    dict(key="common.next", en="Next", fr="Suivant", nl="Volgende"),
     dict(key="common.retry", en="Try again", fr="Réessayer", nl="Opnieuw proberen"),
     dict(key="common.loading", en="Loading…", fr="Chargement…", nl="Laden…"),
-    dict(key="common.share", en="Share", fr="Partager", nl="Delen"),
     dict(key="common.delete", en="Delete", fr="Supprimer", nl="Verwijderen"),
     dict(key="common.skip", en="Skip", fr="Passer", nl="Overslaan"),
     dict(key="common.send", en="Send", fr="Envoyer", nl="Versturen"),

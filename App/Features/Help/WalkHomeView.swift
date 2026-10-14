@@ -9,6 +9,7 @@ struct WalkHomeView: View {
     @State private var minutes = 20
     @State private var isConfirmingStop = false
     @FocusState private var emailFocused: Bool
+    @ScaledMetric(relativeTo: .largeTitle) private var heroSize: CGFloat = 64
 
     private var walk: WalkHomeService { environment.walk }
 
@@ -110,7 +111,7 @@ struct WalkHomeView: View {
     private var arrived: some View {
         VStack(alignment: .leading, spacing: Space.l) {
             Image(systemName: "house.circle.fill")
-                .font(.system(size: 64))
+                .font(.system(size: heroSize))
                 .foregroundStyle(Color.ds(.statusResolved))
                 .accessibilityHidden(true)
             Text("walk.arrived.title")
@@ -140,15 +141,16 @@ private struct ActiveWalkView: View {
                 countdown(phase: phase, now: context.date)
                 phaseBanner(phase)
 
-                ShareLink(item: session.shareURL, message: Text("walk.share.message")) {
-                    Label("walk.share.button", systemImage: "paperplane")
-                }
-                .buttonStyle(DSButtonStyle(kind: .secondary))
-
+                // The one primary action of a walk comes first.
                 DSButton("walk.home", systemImage: "house.fill") {
                     homeTaps += 1
                     Task { await environment.walk.confirmArrival() }
                 }
+
+                ShareLink(item: session.shareURL, message: Text("walk.share.message")) {
+                    Label("walk.share.button", systemImage: "paperplane")
+                }
+                .buttonStyle(DSButtonStyle(kind: .secondary))
 
                 if session.plan.canExtend {
                     DSButton("walk.extend", systemImage: "plus", kind: .secondary) {

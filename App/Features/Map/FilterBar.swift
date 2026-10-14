@@ -49,7 +49,7 @@ struct FilterBar: View {
                     Text(LocalizedStringKey(model.filter.period.titleKey))
                     Text(verbatim: "·").accessibilityHidden(true)
                     communeLabel
-                        .lineLimit(1)
+                        .fixedSize(horizontal: false, vertical: true)
                     Image(systemName: "chevron.down")
                         .font(.caption2.weight(.bold))
                         .accessibilityHidden(true)
@@ -59,14 +59,25 @@ struct FilterBar: View {
                 .foregroundStyle(Color.ds(.textPrimary))
                 .padding(.horizontal, Space.s + Space.xs)
                 .frame(minHeight: Space.minTapTarget)
-                .glassSurface(in: Capsule(), interactive: true)
-                .contentShape(Capsule())
+                .multilineTextAlignment(.leading)
+                // Capsule on one line, soft rectangle when a long Dutch name wraps.
+                .glassSurface(in: Radius.shape(ControlSize.chip / 2), interactive: true)
+                .contentShape(Radius.shape(ControlSize.chip / 2))
             }
             .accessibilityLabel(Text("map.filter.a11y"))
+            .accessibilityValue(filterValue)
             .padding(.horizontal, Space.gutter)
         }
         .padding(.vertical, Space.s)
         .haptic(.selection, trigger: selectionTick)
+    }
+
+    /// Lets VoiceOver read the current period and commune, not just "filters".
+    private var filterValue: Text {
+        let period = Text(LocalizedStringKey(model.filter.period.titleKey))
+        let commune: Text = Commune.with(code: model.filter.communeCode).map { Text(verbatim: $0.name(in: language.resolved)) }
+            ?? Text("map.filter.allCommunes")
+        return Text("map.filter.a11y.value \(period) \(commune)")
     }
 
     @ViewBuilder

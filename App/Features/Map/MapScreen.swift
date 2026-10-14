@@ -53,11 +53,15 @@ struct MapScreen: View {
             .accessibilityLabel(Text("map.a11y.label"))
             .accessibilityHint(Text("map.a11y.hint"))
         }
+        // Map chrome stops growing at accessibility2 so the map stays usable; the zone
+        // list (fully Dynamic Type) is the accessible way to browse at larger sizes.
         .safeAreaInset(edge: .top, spacing: 0) {
             FilterBar(model: model)
+                .dynamicTypeSize(...DynamicTypeSize.accessibility2)
         }
         .overlay(alignment: .bottom) {
             bottomBar
+                .dynamicTypeSize(...DynamicTypeSize.accessibility2)
         }
         .sheet(item: $model.selection) { selection in
             ZoneSheet(selection: selection)

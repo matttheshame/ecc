@@ -12,16 +12,10 @@ struct HelpScreen: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: Space.xl) {
-                VStack(alignment: .leading, spacing: Space.s) {
-                    Text("help.title")
-                        .textStyle(.display)
-                        .foregroundStyle(Color.ds(.textPrimary))
-                        .accessibilityAddTraits(.isHeader)
-                    Text("help.subtitle")
-                        .textStyle(.body)
-                        .foregroundStyle(Color.ds(.textSecondary))
-                }
-                .fixedSize(horizontal: false, vertical: true)
+                Text("help.subtitle")
+                    .textStyle(.body)
+                    .foregroundStyle(Color.ds(.textSecondary))
+                    .fixedSize(horizontal: false, vertical: true)
 
                 VStack(spacing: Space.s + Space.xs) {
                     EmergencyCallButton(contact: EmergencyDirectory.emergency)
@@ -59,8 +53,9 @@ struct HelpScreen: View {
             .padding(Space.gutter)
         }
         .background(Color.ds(.background))
-        .navigationTitle(Text("help.tab"))
-        .navigationBarTitleDisplayMode(.inline)
+        // One heading: the large navigation title (no duplicate in-content title).
+        .navigationTitle(Text("help.title"))
+        .navigationBarTitleDisplayMode(isModal ? .inline : .large)
         .navigationDestination(isPresented: $isShowingWalk) { WalkHomeView() }
         .toolbar {
             if isModal {

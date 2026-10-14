@@ -37,6 +37,15 @@ targets:
       - path: App
         excludes:
           - "**/.DS_Store"
+    preBuildScripts:
+      - name: Require Supabase keys in Release
+        basedOnDependencyAnalysis: false
+        script: |
+          # Without keys the app falls back to labelled demo data. Never ship that.
+          if [ "${CONFIGURATION}" = "Release" ] && { [ -z "${SUPABASE_HOST}" ] || [ -z "${SUPABASE_ANON_KEY}" ]; }; then
+            echo "error: SUPABASE_HOST / SUPABASE_ANON_KEY missing. Copy Config/Secrets.example.xcconfig to Config/Secrets.xcconfig."
+            exit 1
+          fi
     dependencies:
       - package: BruskKit
         product: BruskCore
