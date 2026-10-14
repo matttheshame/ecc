@@ -1,0 +1,78 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "CFBundleDisplayName" : {
+      "comment" : "",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brusk"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brusk"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brusk"
+          }
+        }
+      }
+    },
+    "NSCameraUsageDescription" : {
+      "comment" : "",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optional: take a photo of the place. Faces and licence plates are blurred on your phone before anything is sent."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Facultatif : photographiez le lieu. Les visages et les plaques sont floutés sur votre téléphone avant tout envoi."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optioneel: maak een foto van de plek. Gezichten en nummerplaten worden op je telefoon vervaagd vóór er iets verstuurd wordt."
+          }
+        }
+      }
+    },
+    "NSLocationWhenInUseUsageDescription" : {
+      "comment" : "",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your location places the pin when you report, and shows reports near you to confirm. It is never shown to anyone."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre position place l'épingle quand vous signalez et affiche les signalements proches à confirmer. Elle n'est jamais montrée à personne."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je locatie plaatst de speld wanneer je meldt en toont meldingen in de buurt om te bevestigen. Ze wordt nooit aan iemand getoond."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

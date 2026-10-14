@@ -1,0 +1,97 @@
+# XcodeGen spec — the source of truth for Brusk.xcodeproj.
+# Regenerate after adding files:  xcodegen generate
+name: Brusk
+options:
+  bundleIdPrefix: be.brusk
+  developmentLanguage: en
+  deploymentTarget:
+    iOS: "18.0"
+  createIntermediateGroups: true
+  groupSortPosition: top
+  generateEmptyDirectories: true
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    LOCALIZATION_PREFERS_STRING_CATALOGS: YES
+    SWIFT_EMIT_LOC_STRINGS: YES
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+    DEAD_CODE_STRIPPING: YES
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+
+packages:
+  BruskKit:
+    path: Packages/BruskKit
+
+targets:
+  Brusk:
+    type: application
+    platform: iOS
+    deploymentTarget: "18.0"
+    configFiles:
+      Debug: Config/Base.xcconfig
+      Release: Config/Base.xcconfig
+    sources:
+      - path: App
+        excludes:
+          - "**/.DS_Store"
+    dependencies:
+      - package: BruskKit
+        product: BruskCore
+      - package: BruskKit
+        product: BruskBackend
+    entitlements:
+      path: App/Brusk.entitlements
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: Brusk
+        CFBundleDevelopmentRegion: en
+        CFBundleLocalizations: [en, fr, nl]
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        ITSAppUsesNonExemptEncryption: false
+        LSRequiresIPhoneOS: true
+        UILaunchScreen:
+          UIColorName: LaunchBackground
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        UIRequiredDeviceCapabilities: [arm64]
+        # Walking home alone: location keeps updating while the screen is locked.
+        UIBackgroundModes: [location]
+        NSLocationWhenInUseUsageDescription: "Your location places the pin when you report, and shows reports near you to confirm. It is never shown to anyone."
+        NSCameraUsageDescription: "Optional: take a photo of the place. Faces and licence plates are blurred on your phone before anything is sent."
+        CFBundleURLTypes:
+          - CFBundleURLName: be.brusk.app
+            CFBundleURLSchemes: [brusk]
+        SUPABASE_HOST: $(SUPABASE_HOST)
+        SUPABASE_ANON_KEY: $(SUPABASE_ANON_KEY)
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: be.brusk.app
+        PRODUCT_NAME: Brusk
+        TARGETED_DEVICE_FAMILY: "1"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        CODE_SIGN_STYLE: Automatic
+        GENERATE_INFOPLIST_FILE: NO
+        ENABLE_PREVIEWS: YES
+        SUPPORTS_MACCATALYST: NO
+
+schemes:
+  Brusk:
+    build:
+      targets:
+        Brusk: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - package: BruskKit/BruskCoreTests
+        - package: BruskKit/BruskBackendTests
+    archive:
+      config: Release
