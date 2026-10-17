@@ -18,7 +18,7 @@ Store Connect API key.
 |---|---|---|
 | `errSecInternalComponent` at codesign, over SSH | The login keychain is locked in an SSH session | Run `xcodebuild` in the owner's logged-in GUI session: a LaunchAgent the Mac agent set up, or Xcode. Never ask for the login password to `security unlock-keychain`: that hands the owner's password to an agent and to logs |
 | `exportArchive Cloud signing permission error`, then `No profiles for '<bundle id>' were found` (automatic signing, `destination` upload) | The account cannot use cloud-managed distribution certificates | Manual signing with the local Apple Distribution certificate and an App Store profile. Retrying automatic signing changes nothing |
-| The uploaded build is not flagged "internal only" | Seen with the manual-signing path | Never add an external group or "Submit for Review" without the owner's go: the owner adds the build to an internal group |
+| The uploaded build is not flagged "internal only" | Seen with the manual-signing path. The export option `testFlightInternalTestingOnly` was only tried with automatic signing, which failed | Never add an external group or "Submit for Review" without the owner's go: the owner adds the build to an internal group |
 
 ## Steps
 
@@ -30,9 +30,15 @@ Store Connect API key.
    sed -i 's/CURRENT_PROJECT_VERSION = 2;/CURRENT_PROJECT_VERSION = 3;/' App.xcodeproj/project.pbxproj
    ```
 
-   Do the same for `MARKETING_VERSION`. `Info.plist` reads `$(CURRENT_PROJECT_VERSION)`.
-   Commit it on its own (`chore(release): build 3 of 1.1.0, for TestFlight`).
-2. **Archive**, in the GUI session:
+   - This is GNU `sed`. On macOS, write `sed -i ''`.
+   - Check that both files changed (`git diff --stat`).
+   - Do the same for `MARKETING_VERSION`. `Info.plist` reads `$(CURRENT_PROJECT_VERSION)`.
+   - Commit it on its own (`chore(release): build 3 of 1.1.0, for TestFlight`).
+2. **First upload of a new app only.** The owner creates the app in App Store Connect,
+   because the API cannot: My Apps → + → New App, with the bundle id and a SKU. Register
+   the bundle id first if it is not listed. Then make an App Store distribution profile
+   for it.
+3. **Archive**, in the GUI session:
 
    ```bash
    xcodebuild archive -project App.xcodeproj -scheme App -configuration Release \
@@ -40,7 +46,7 @@ Store Connect API key.
      -allowProvisioningUpdates DEVELOPMENT_TEAM=<team id>
    ```
 
-3. **Export.** Use an `ExportOptions.plist` with:
+4. **Export.** Use an `ExportOptions.plist` with:
    - `method` = `app-store-connect`;
    - `signingStyle` = `manual`;
    - `signingCertificate` = `Apple Distribution`;
@@ -48,11 +54,11 @@ Store Connect API key.
    - `provisioningProfiles` = { bundle id: App Store profile name }.
 
    Then run `xcodebuild -exportArchive -archivePath … -exportPath … -exportOptionsPlist ExportOptions.plist`.
-4. **Upload:** `xcrun altool --upload-app -f App.ipa -t ios --apiKey <key id> --apiIssuer <issuer id>`.
+5. **Upload:** `xcrun altool --upload-app -f App.ipa -t ios --apiKey <key id> --apiIssuer <issuer id>`.
    - The `.p8` key lives in `~/.appstoreconnect/private_keys/`.
    - If this Xcode's `altool --help` drops `--upload-app`, use `--upload-package`.
    - Keep the Delivery UUID.
-5. Apple processes the build for 10 to 30 minutes. Then the owner adds it to an internal
+6. Apple processes the build for 10 to 30 minutes. Then the owner adds it to an internal
    group, writes "What to Test" and installs it from the TestFlight app.
 
 ## Writing the directive for the Mac agent

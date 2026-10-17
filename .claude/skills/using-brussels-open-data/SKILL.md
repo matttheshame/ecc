@@ -26,6 +26,12 @@ https://data.mobility.brussels/geoserver/wfs?service=WFS&version=2.0.0&request=G
   &propertyName=fims_id,category,status,createddate,updateddate,road_fr,road_nl,geom
 ```
 
+- Shown unencoded for reading. Encode the parameters when sending: `URLSearchParams`,
+  or `curl -G --data-urlencode`.
+- Keep each answer under `count` by filtering on dates; a daily import only needs what
+  changed.
+- To read more than `count`, page with `startIndex` and a stable `sortBy=fims_id`.
+
 **One incident**
 - `fims_id` is the public incident number: the site, its API and its search all use
   this same number.
